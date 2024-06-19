@@ -10,8 +10,9 @@ const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
   const [percent, setPercent] = useState(0);
   const [working, setWorking] = useState(0);
   const TimerFun = () => {
-
     let interval;
+
+
 
     const storedStartTime = localStorage.getItem(timerId);
 
@@ -23,13 +24,12 @@ const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
       localStorage.setItem(timerId, date);
       startTime = date
     } else {
-      return
+      return () => clearInterval(interval);
+
     }
 
     const updateTimer = () => {
-      if (working == 0) {
-        return
-      }
+
       const currentTime = new Date();
       const elapsedSeconds = (currentTime - startTime) / 1000;
       const remainingSeconds = initialDuration - elapsedSeconds;
@@ -73,6 +73,13 @@ const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
     }
   };
 
+  const stopTimer = () => {
+    setWorking(0)
+    setTimeLeft(initialDuration);
+    setPercent(0)
+    localStorage.removeItem(timerId)
+  };
+
   const rotation = 360 * (percent / 100);
   const rightRotation = Math.min(rotation, 180);
   const leftRotation = Math.max(rotation - 180, 0);
@@ -80,6 +87,7 @@ const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
   return (
     <div className="timer" onClick={handleClick}>
       <h2>{title}</h2>
+      <button onClick={stopTimer}>reset</button>
       <div className="progress-circle">
         <div className="progress-bar">
           <span style={{ transform: `rotate(${rightRotation}deg)` }}></span>
@@ -93,14 +101,37 @@ const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
     </div>
   );
 };
+const getTimerName = str => {
+  return str.charAt(0).toUpperCase() + str.slice(1) + " Timer";
+};
 
+const getTimerImg = str => {
+  return "/images/" + str + ".jpg";
+};
+
+const getTimerId = str => {
+  return str + "-timer";
+};
 const App = () => {
+
+  const timers = [
+    ["hamster", 3 * 60 * 60],
+    ["blum", 8 * 60 * 60],
+    ["hot", 2 * 60 * 60],
+    ["test", 10]
+  ]
+
   return (
     <div id="cont">
-      <Timer title="Hamster Timer" imgSrc="/images/hamster.jpg" initialDuration={3 * 60 * 60} timerId="hamster-timer" />
-      <Timer title="Blum Timer" imgSrc="/images/blum.jpg" initialDuration={8 * 60 * 60} timerId="blum-timer" />
-      <Timer title="Hot Timer" imgSrc="/images/hot.jpg" initialDuration={2 * 60 * 60} timerId="hot-timer" />
-      <Timer title="Test Timer" imgSrc="/images/test.png" initialDuration={10} timerId="test-timer" />
+      {timers.map(([name, time]) => (
+        <Timer
+          title={getTimerName(name)}
+          imgSrc={getTimerImg(name)}
+          initialDuration={time}
+          timerId={getTimerId(name)}
+          key={getTimerId(name)}
+        />
+      ))}
     </div>
   );
 };
