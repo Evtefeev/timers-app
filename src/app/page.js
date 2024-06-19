@@ -1,95 +1,108 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
 
-export default function Home() {
+
+import React, { useEffect, useState } from 'react';
+import './globals.css'; // Assuming the styles are moved to App.css
+
+const Timer = ({ title, imgSrc, initialDuration, timerId }) => {
+
+  const [timeLeft, setTimeLeft] = useState(initialDuration);
+  const [percent, setPercent] = useState(0);
+  const [working, setWorking] = useState(0);
+  const TimerFun = () => {
+
+    let interval;
+
+    const storedStartTime = localStorage.getItem(timerId);
+
+    let startTime
+    if (storedStartTime) {
+      startTime = new Date(storedStartTime)
+    } else if (working == 1) {
+      const date = new Date()
+      localStorage.setItem(timerId, date);
+      startTime = date
+    } else {
+      return
+    }
+
+    const updateTimer = () => {
+      if (working == 0) {
+        return
+      }
+      const currentTime = new Date();
+      const elapsedSeconds = (currentTime - startTime) / 1000;
+      const remainingSeconds = initialDuration - elapsedSeconds;
+
+      setTimeLeft(Math.max(0, remainingSeconds));
+
+      const progressPercent = (elapsedSeconds / initialDuration) * 100;
+      setPercent(progressPercent);
+
+      if (remainingSeconds <= 0) {
+        // clearInterval(interval);
+        localStorage.removeItem(timerId);
+        setPercent(0)
+        setWorking(0)
+        setTimeLeft(initialDuration);
+      }
+    };
+    setWorking(1)
+    interval = setInterval(updateTimer, 50);
+
+    return () => clearInterval(interval);
+  };
+
+
+  useEffect(TimerFun, [initialDuration, timerId, working, percent]);
+
+
+
+  const formatTime = (seconds) => {
+    const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const secs = String(Math.floor(seconds % 60)).padStart(2, '0');
+    return `${hours}:${minutes}:${secs}`;
+  };
+
+  const handleClick = () => {
+    if (working == 0) {
+      setWorking(1)
+      setTimeLeft(initialDuration);
+      // TimerFun();
+    }
+  };
+
+  const rotation = 360 * (percent / 100);
+  const rightRotation = Math.min(rotation, 180);
+  const leftRotation = Math.max(rotation - 180, 0);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="timer" onClick={handleClick}>
+      <h2>{title}</h2>
+      <div className="progress-circle">
+        <div className="progress-bar">
+          <span style={{ transform: `rotate(${rightRotation}deg)` }}></span>
         </div>
+        <div className="progress-bar progress-bar-left">
+          <span style={{ transform: `rotate(${leftRotation}deg)` }}></span>
+        </div>
+        <img src={imgSrc} alt={title} />
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <div>{formatTime(timeLeft)}</div>
+    </div>
   );
-}
+};
+
+const App = () => {
+  return (
+    <div id="cont">
+      <Timer title="Hamster Timer" imgSrc="/images/hamster.jpg" initialDuration={3 * 60 * 60} timerId="hamster-timer" />
+      <Timer title="Blum Timer" imgSrc="/images/blum.jpg" initialDuration={8 * 60 * 60} timerId="blum-timer" />
+      <Timer title="Hot Timer" imgSrc="/images/hot.jpg" initialDuration={2 * 60 * 60} timerId="hot-timer" />
+      <Timer title="Test Timer" imgSrc="/images/test.png" initialDuration={10} timerId="test-timer" />
+    </div>
+  );
+};
+
+export default App;
