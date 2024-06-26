@@ -52,8 +52,21 @@
 }
 body {
   background-color: antiquewhite;
+  margin: 0;
+  padding: 0;
 }
 #cont {
   display: flex;
   justify-items: center;
+}
+
+.page{
+  margin-top: 10px;
+  padding: 10px;
+  justify-content: center;
+  justify-items: center;
+  display: flex;
+  font-size: large;
+  font-weight: 400;
+  line-height: 1.5;
 }
