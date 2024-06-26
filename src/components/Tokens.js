@@ -19,7 +19,7 @@ const TimersPage = () => {
   return (
     <>
       {/* <Header /> */}
-      <div id="cont">
+      <div id="cont" className='timer-container'>
         {timers.map(([name, time]) => (
           <Timer
             title={getTimerName(name)}
@@ -27,6 +27,7 @@ const TimersPage = () => {
             initialDuration={time}
             timerId={getTimerId(name)}
             key={getTimerId(name)}
+            className="timer-item"
           />
         ))}
       </div>
