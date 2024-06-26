@@ -11,9 +11,9 @@ const App = () => {
     ["hamster", 3 * 60 * 60],
     ["blum", 8 * 60 * 60],
     ["hot", 2 * 60 * 60],
-    ["iceberg", 8 * 60 * 60],
+    ["iceberg", 6 * 60 * 60],
     ["pixelTap", 8 * 60 * 60],
-    ["test", 10]
+    // ["test", 10]
   ]
 
   return (
