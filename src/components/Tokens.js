@@ -13,6 +13,7 @@ const TimersPage = () => {
     ["hot", 2 * 60 * 60],
     ["iceberg", 6 * 60 * 60],
     ["pixelTap", 8 * 60 * 60],
+    ["tapswap", 12 * 60 * 60],
     // ["test", 10]
   ]
 
