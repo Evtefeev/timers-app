@@ -3,7 +3,7 @@ import '@/app/globals.css'; // Assuming the styles are moved to App.css
 import TimersPage from '@/components/Tokens';
 import ReactGA from "react-ga4";
 
-const TRACKING_ID = "G-XXXXXXXXX";
+const TRACKING_ID = "G-PCYEZBYF9D";
 
 const App = () => {
   useEffect(() => {
