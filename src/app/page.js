@@ -8,8 +8,6 @@ const TRACKING_ID = "G-PCYEZBYF9D";
 const App = () => {
   useEffect(() => {
     ReactGA.initialize(TRACKING_ID);
-    // Send pageview with a custom path
-    ReactGA.send({ hitType: "pageview", page: "/", title: "Timers Page" });
   }, [])
   return (
     <>
