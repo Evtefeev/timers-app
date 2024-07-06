@@ -6,7 +6,7 @@ import './globals.css'; // Assuming the styles are moved to App.css
 
 
 export function getTimerName(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1) + " Timer";
+    return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 export function getTimerImg(str) {
@@ -19,18 +19,17 @@ export function getTimerId(str) {
 
 
 
-export function Timer({title, imgSrc, initialDuration, timerId}) {
+export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
 
-    const [timeLeft, setTimeLeft] = useState(initialDuration);
+    const [timeLeft, setTimeLeft] = useState(initialDuration + 60);
     const [percent, setPercent] = useState(0);
     const [working, setWorking] = useState(0);
+    const openInNewTab = url => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
     const TimerFun = () => {
         let interval;
-
-
-
         const storedStartTime = localStorage.getItem(timerId);
-
         let startTime
         if (storedStartTime) {
             startTime = new Date(storedStartTime)
@@ -82,17 +81,17 @@ export function Timer({title, imgSrc, initialDuration, timerId}) {
 
     const handleClick = () => {
         if (working == 0) {
-            setWorking(1)
+            setWorking(1);
             setTimeLeft(initialDuration);
-            // TimerFun();
+            openInNewTab(link)
         }
     };
 
     const stopTimer = () => {
-        setWorking(0)
+        setWorking(0);
         setTimeLeft(initialDuration);
-        setPercent(0)
-        localStorage.removeItem(timerId)
+        setPercent(0);
+        localStorage.removeItem(timerId);
     };
 
     const rotation = 360 * (percent / 100);

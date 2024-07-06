@@ -79,6 +79,9 @@ body {
   justify-content: center; /* Adjust spacing between columns */
 }
 
+.timer h2 {
+  margin-bottom: 3px;
+}
 
 /* Adjust styles for mobile devices */
 @media screen and (max-width: 600px) {
