@@ -19,21 +19,31 @@ export function getTimerId(str) {
 
 
 
-export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
+export function Timer({ title, imgSrc, initialDuration, timerId, link, working, setWorkingState }) {
 
-    const [timeLeft, setTimeLeft] = useState(initialDuration + 60);
+    const [timeLeft, setTimeLeft] = useState(0);
     const [percent, setPercent] = useState(0);
-    const [working, setWorking] = useState(0);
+
+
+    function setWorking(state) {
+        const workingState = Object.assign({}, working);
+        workingState[timerId] = state;
+        setWorkingState(workingState);
+    }
+
     const openInNewTab = url => {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
     const TimerFun = () => {
         let interval;
+        // if (!working[timerId]) {
+        //     return () => clearInterval(interval);
+        // }
         const storedStartTime = localStorage.getItem(timerId);
         let startTime
         if (storedStartTime) {
             startTime = new Date(storedStartTime)
-        } else if (working == 1) {
+        } else if (working[timerId] == 1) {
             const date = new Date()
             localStorage.setItem(timerId, date);
             startTime = date
@@ -51,24 +61,24 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
             setTimeLeft(Math.max(0, remainingSeconds));
 
             const progressPercent = (elapsedSeconds / initialDuration) * 100;
-            setPercent(progressPercent);
+            setPercent(100-progressPercent);
 
             if (remainingSeconds <= 0) {
                 // clearInterval(interval);
                 localStorage.removeItem(timerId);
                 setPercent(0)
                 setWorking(0)
-                setTimeLeft(initialDuration);
+                setTimeLeft(0);
             }
         };
         setWorking(1)
-        interval = setInterval(updateTimer, 50);
+        interval = setInterval(updateTimer, 500);
 
         return () => clearInterval(interval);
     };
 
 
-    useEffect(TimerFun, [initialDuration, timerId, working, percent]);
+    useEffect(TimerFun, [timeLeft]);
 
 
 
@@ -80,7 +90,7 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
     };
 
     const handleClick = () => {
-        if (working == 0) {
+        if (!working[timerId] || working[timerId] == 0) {
             setWorking(1);
             setTimeLeft(initialDuration);
             openInNewTab(link)
@@ -89,7 +99,7 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
 
     const stopTimer = () => {
         setWorking(0);
-        setTimeLeft(initialDuration);
+        setTimeLeft(0);
         setPercent(0);
         localStorage.removeItem(timerId);
     };
@@ -99,7 +109,7 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
     const leftRotation = Math.max(rotation - 180, 0);
 
     return (
-        <div className="timer" onClick={handleClick}>
+        <div className="timer">
             <h2>{title}</h2>
             <button onClick={stopTimer}>reset</button>
             <div className="progress-circle">
@@ -109,7 +119,7 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link }) {
                 <div className="progress-bar progress-bar-left">
                     <span style={{ transform: `rotate(${leftRotation}deg)` }}></span>
                 </div>
-                <img src={imgSrc} alt={title} />
+                <img src={imgSrc} alt={title} onClick={handleClick} />
             </div>
             <div>{formatTime(timeLeft)}</div>
         </div>
