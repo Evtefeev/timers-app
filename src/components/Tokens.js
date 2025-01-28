@@ -31,28 +31,33 @@ const TimersPage = () => {
 
   useEffect(() => {
     const localTimers = [];
-    timers.forEach((name) => {
-      const timerId = getTimerId(name);
+    timers.forEach((timer) => {
+      const timerId = getTimerId(timer[0]);
       if (localStorage.getItem(timerId)) {
-        localTimers.push({ name, id: timerId });
+        localTimers.push({ timerId: 1 });
       }
     });
     setWorking(localTimers);
     console.log(localTimers);
+
+    
   }, []);
 
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
+      
     }, 1000);
 
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
   function sort_timers(a, b) {
 
-    const aInDict = getTimerId(a[0]) in working;
-    const bInDict = getTimerId(b[0]) in working;
+    // const aInDict = getTimerId(a[0]) in working;
+    // const bInDict = getTimerId(b[0]) in working;
+    const aInDict = localStorage.getItem(getTimerId(a[0]))
+    const bInDict = localStorage.getItem(getTimerId(b[0]))
 
     if (aInDict && !bInDict) {
       return 1; // a идет перед b
