@@ -73,7 +73,7 @@ export function Timer({
         if (!working[timerId]) {
             setWorkingState({ ...working, [timerId]: 1 });
             setTimeLeft(initialDuration);
-            window.open(link, "_blank", "noopener,noreferrer");
+            window.open(link, "_parent", "noopener,noreferrer");
         }
     };
 
