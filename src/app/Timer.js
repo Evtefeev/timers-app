@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
-
-import React, { useEffect, useState } from 'react';
-import './globals.css'; // Assuming the styles are moved to App.css
+import React, { useEffect, useState } from "react";
+import "./globals.css";
 
 
 export function getTimerName(str) {
@@ -18,87 +17,68 @@ export function getTimerId(str) {
 };
 
 
-
-export function Timer({ title, imgSrc, initialDuration, timerId, link, working, setWorkingState }) {
-
-    const [timeLeft, setTimeLeft] = useState(0);
-    const [percent, setPercent] = useState(0);
-
-
-    function setWorking(state) {
-        const workingState = Object.assign({}, working);
-        workingState[timerId] = state;
-        setWorkingState(workingState);
-    }
-
-    const openInNewTab = url => {
-        window.open(url, '_blank', 'noopener,noreferrer');
-    };
-    const TimerFun = () => {
-        let interval;
-        // if (!working[timerId]) {
-        //     return () => clearInterval(interval);
-        // }
+export function Timer({
+    title,
+    imgSrc,
+    initialDuration,
+    timerId,
+    link,
+    working,
+    setWorkingState,
+    currentTime,
+}) {
+    const [timeLeft, setTimeLeft] = useState(initialDuration);
+    const [percent, setPercent] = useState(100);
+    const [startTime, setStartTime] = useState(() => {
         const storedStartTime = localStorage.getItem(timerId);
-        let startTime
-        if (storedStartTime) {
-            startTime = new Date(storedStartTime)
-        } else if (working[timerId] == 1) {
-            const date = new Date()
-            localStorage.setItem(timerId, date);
-            startTime = date
+        return storedStartTime ? new Date(storedStartTime) : null;
+    });
+
+    useEffect(() => {
+        if (working[timerId] && !startTime) {
+            const now = new Date();
+            setStartTime(now);
+            localStorage.setItem(timerId, now);
         } else {
-            return () => clearInterval(interval);
-
+            setPercent(0);
+            setTimeLeft(0);
         }
+    }, [working, timerId, startTime]);
 
-        const updateTimer = () => {
-
-            const currentTime = new Date();
+    useEffect(() => {
+        if (startTime) {
             const elapsedSeconds = (currentTime - startTime) / 1000;
             const remainingSeconds = initialDuration - elapsedSeconds;
 
-            setTimeLeft(Math.max(0, remainingSeconds));
-
-            const progressPercent = (elapsedSeconds / initialDuration) * 100;
-            setPercent(100-progressPercent);
-
             if (remainingSeconds <= 0) {
-                // clearInterval(interval);
-                localStorage.removeItem(timerId);
-                setPercent(0)
-                setWorking(0)
                 setTimeLeft(0);
+                setPercent(0);
+                localStorage.removeItem(timerId);
+                setWorkingState({ ...working, [timerId]: 0 });
+            } else {
+                setTimeLeft(Math.max(0, remainingSeconds));
+                setPercent(100 - (elapsedSeconds / initialDuration) * 100);
             }
-        };
-        setWorking(1)
-        interval = setInterval(updateTimer, 500);
-
-        return () => clearInterval(interval);
-    };
-
-
-    useEffect(TimerFun, [timeLeft]);
-
-
+        }
+    }, [currentTime, startTime, initialDuration, timerId, working, setWorkingState]);
 
     const formatTime = (seconds) => {
-        const hours = String(Math.floor(seconds / 3600)).padStart(2, '0');
-        const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-        const secs = String(Math.floor(seconds % 60)).padStart(2, '0');
+        const hours = String(Math.floor(seconds / 3600)).padStart(2, "0");
+        const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+        const secs = String(Math.floor(seconds % 60)).padStart(2, "0");
         return `${hours}:${minutes}:${secs}`;
     };
 
     const handleClick = () => {
-        if (!working[timerId] || working[timerId] == 0) {
-            setWorking(1);
+        if (!working[timerId]) {
+            setWorkingState({ ...working, [timerId]: 1 });
             setTimeLeft(initialDuration);
-            openInNewTab(link)
+            window.open(link, "_blank", "noopener,noreferrer");
         }
     };
 
     const stopTimer = () => {
-        setWorking(0);
+        setWorkingState({ ...working, [timerId]: 0 });
         setTimeLeft(0);
         setPercent(0);
         localStorage.removeItem(timerId);
@@ -124,4 +104,4 @@ export function Timer({ title, imgSrc, initialDuration, timerId, link, working, 
             <div>{formatTime(timeLeft)}</div>
         </div>
     );
-};
+}

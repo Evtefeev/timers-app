@@ -17,15 +17,38 @@ const TimersPage = () => {
     ["yesCoin", 12 * 60 * 60, "https://t.me/theYescoin_bot/Yescoin?startapp=GAw08x"],
     // ["memeFi", 3 * 60 * 60, "https://t.me/memefi_coin_bot?start=r_2642b444e7"],
     ["tonStation", 8 * 60 * 60, "https://t.me/tonstationgames_bot/app?startapp=ref_6kbaljw8tzkfmivuyrxm2i"],
-    ["w-coin", 8*60*60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
-    ["dormint", 8*60*60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
-    ["coub", 24*60*60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
-    ["cats", 24*60*60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
+    ["w-coin", 8 * 60 * 60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
+    ["dormint", 8 * 60 * 60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
+    ["coub", 24 * 60 * 60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
+    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
 
 
-  
+
   ]
   const [working, setWorking] = useState({});
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+
+  useEffect(() => {
+    const localTimers = [];
+    timers.forEach((name) => {
+      const timerId = getTimerId(name);
+      if (localStorage.getItem(timerId)) {
+        localTimers.push({ name, id: timerId });
+      }
+    });
+    setWorking(localTimers);
+    console.log(localTimers);
+  }, []);
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
   function sort_timers(a, b) {
 
     const aInDict = getTimerId(a[0]) in working;
@@ -56,6 +79,7 @@ const TimersPage = () => {
             setWorkingState={setWorking}
             key={getTimerId(name)}
             className="timer-item"
+            currentTime={currentTime}
           />
         ))}
       </div>
