@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./globals.css";
-
+import { openLink } from '@telegram-apps/sdk';
 
 export function getTimerName(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -26,6 +26,7 @@ export function Timer({
     working,
     setWorkingState,
     currentTime,
+    isTelegram
 }) {
     const [timeLeft, setTimeLeft] = useState(initialDuration);
     const [percent, setPercent] = useState(100);
@@ -83,9 +84,17 @@ export function Timer({
         if (!working[timerId]) {
             setWorkingState({ ...working, [timerId]: 1 });
             setTimeLeft(initialDuration);
-            window.open(link, "_blank", "noopener,noreferrer");
+            if (openLink.isAvailable()) {
+                openLink(link, {
+                    tryBrowser: 'chrome',
+                    tryInstantView: true,
+                });
+            } else {
+                window.open(link, "_blank", "noopener,noreferrer");
+            }
         }
     };
+
 
     const stopTimer = () => {
         localStorage.removeItem(timerId);

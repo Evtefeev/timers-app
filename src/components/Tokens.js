@@ -5,12 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { Timer, getTimerName, getTimerImg, getTimerId } from "@/app/Timer";
 import Header from './Header';
 
+
+
 const TimersPage = () => {
 
   const [timers, setTimers] = useState([
     // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
     ["blum", 8 * 60 * 60, "https://t.me/BlumCryptoBot/app?startapp=ref_u1zCViQjXi"],
-    ["hot", 3 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
+    ["hot", 4 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
     ["iceberg", 6 * 60 * 60, "https://t.me/IcebergAppBot?start=referral_1712026351"],
     // ["pixelTap", 8 * 60 * 60, "https://t.me/pixelversexyzbot?start=1712026351"],
     ["tapSwap", 12 * 60 * 60, "https://t.me/tapswap_mirror_bot?start=r_1712026351"],
@@ -24,6 +26,13 @@ const TimersPage = () => {
   ])
   const [working, setWorking] = useState({});
   const [currentTime, setCurrentTime] = useState(Date.now());
+
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   function sort_timers(a, b) {
 
@@ -70,29 +79,35 @@ const TimersPage = () => {
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
 
+  if (isClient) {
 
-  return (
-    <>
-      {/* <Header /> */}
-      <div id="cont" className='timer-container'>
-        {timers.sort(sort_timers).map(([name, time, link]) => (
-          <Timer
-            title={getTimerName(name)}
-            imgSrc={getTimerImg(name)}
-            initialDuration={time}
-            timerId={getTimerId(name)}
-            link={link}
-            working={working}
-            setWorkingState={setWorking}
-            key={getTimerId(name)}
-            className="timer-item"
-            currentTime={currentTime}
-          />
-        ))}
-      </div>
-    </>
+    return (
+      <>
+        {/* <Header /> */}
+        <div id="cont" className='timer-container'>
+          {timers.sort(sort_timers).map(([name, time, link]) => (
+            <Timer
+              title={getTimerName(name)}
+              imgSrc={getTimerImg(name)}
+              initialDuration={time}
+              timerId={getTimerId(name)}
+              link={link}
+              working={working}
+              setWorkingState={setWorking}
+              key={getTimerId(name)}
+              className="timer-item"
+              currentTime={currentTime}
+            />
+          ))}
+        </div>
+      </>
 
-  );
+    );
+  }
+  else {
+    return "Loading...";
+  }
+
 };
 
 export default TimersPage;
