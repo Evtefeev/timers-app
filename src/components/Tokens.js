@@ -42,15 +42,18 @@ const TimersPage = () => {
   }
 
   useEffect(() => {
-    const localTimers = [];
+    const localTimers = {};
     timers.forEach((timer) => {
-      const timerId = getTimerId(timer[0]);
+      const timerId = getTimerId(timer[0]); 
       if (localStorage.getItem(timerId)) {
-        localTimers.push({ timerId: 1 });
+        localTimers[timerId] = 1;
       }
     });
     const sortedTimers = timers.sort(sort_timers);
+    setTimers(sortedTimers)
     setWorking(localTimers);
+    console.log(localTimers);
+    
   }, []);
 
 

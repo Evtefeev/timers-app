@@ -35,7 +35,7 @@ export function Timer({
     });
 
     useEffect(() => {
-        if (working[timerId] && !startTime) {
+        if (working[timerId] == 1 && !startTime) {
             const now = new Date();
             setStartTime(now);
             localStorage.setItem(timerId, now);
@@ -46,7 +46,7 @@ export function Timer({
     }, [working, timerId, startTime]);
 
     useEffect(() => {
-        if (startTime) {
+        if (working[timerId] == 1 && startTime) {
             const elapsedSeconds = (currentTime - startTime) / 1000;
             const remainingSeconds = initialDuration - elapsedSeconds;
 
@@ -78,10 +78,12 @@ export function Timer({
     };
 
     const stopTimer = () => {
+        localStorage.removeItem(timerId);
         setWorkingState({ ...working, [timerId]: 0 });
+        console.log(working);
+        
         setTimeLeft(0);
         setPercent(0);
-        localStorage.removeItem(timerId);
     };
 
     const rotation = 360 * (percent / 100);
