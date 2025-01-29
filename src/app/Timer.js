@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./globals.css";
-import { openTelegramLink } from '@telegram-apps/sdk';
+
 
 export function getTimerName(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -26,7 +26,7 @@ export function Timer({
     working,
     setWorkingState,
     currentTime,
-    isTelegram
+    openTelegramLink
 }) {
     const [timeLeft, setTimeLeft] = useState(initialDuration);
     const [percent, setPercent] = useState(100);

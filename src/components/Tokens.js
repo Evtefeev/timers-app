@@ -1,9 +1,9 @@
 "use client";
 
-
 import React, { useEffect, useState } from 'react';
 import { Timer, getTimerName, getTimerImg, getTimerId } from "@/app/Timer";
 import Header from './Header';
+import { openTelegramLink } from '@telegram-apps/sdk';
 
 
 
@@ -84,6 +84,7 @@ const TimersPage = () => {
     return (
       <>
         {/* <Header /> */}
+        {openTelegramLink.isAvailable() && <p>Telegram </p>}
         <div id="cont" className='timer-container'>
           {timers.sort(sort_timers).map(([name, time, link]) => (
             <Timer
