@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { Timer, getTimerName, getTimerImg, getTimerId } from "@/app/Timer";
 import Header from './Header';
-import { openTelegramLink } from '@telegram-apps/sdk';
+import {init,  openTelegramLink } from '@telegram-apps/sdk';
 
-
+init();
 
 const TimersPage = () => {
 
