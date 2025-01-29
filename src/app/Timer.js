@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./globals.css";
-import { openLink } from '@telegram-apps/sdk';
+import { openTelegramLink } from '@telegram-apps/sdk';
 
 export function getTimerName(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -84,11 +84,8 @@ export function Timer({
         if (!working[timerId]) {
             setWorkingState({ ...working, [timerId]: 1 });
             setTimeLeft(initialDuration);
-            if (openLink.isAvailable()) {
-                openLink(link, {
-                    tryBrowser: 'chrome',
-                    tryInstantView: true,
-                });
+            if (openTelegramLink.isAvailable()) {
+                openTelegramLink(link);
             } else {
                 window.open(link, "_blank", "noopener,noreferrer");
             }
