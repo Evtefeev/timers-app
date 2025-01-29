@@ -41,12 +41,9 @@ export function Timer({
         if (storedStartTime) {
             setStartTime(new Date(storedStartTime));
         }
-
-    }, [timerId]);
-
-
-    useEffect(() => {
-        if (working[timerId] == 1 && !startTime) {
+        // console.log(storedStartTime);
+        
+        if (working[timerId] == 1 && !storedStartTime) {
             const now = new Date();
             setStartTime(now);
             localStorage.setItem(timerId, now);
@@ -54,7 +51,8 @@ export function Timer({
             setPercent(0);
             setTimeLeft(0);
         }
-    }, [working, timerId, startTime]);
+
+    }, [timerId, working, timerId, startTime]);
 
     useEffect(() => {
         if (working[timerId] == 1 && startTime) {
@@ -97,7 +95,6 @@ export function Timer({
         localStorage.removeItem(timerId);
         setWorkingState({ ...working, [timerId]: 0 });
         console.log(working);
-
         setTimeLeft(0);
         setPercent(0);
     };

@@ -5,7 +5,12 @@ import { Timer, getTimerName, getTimerImg, getTimerId } from "@/app/Timer";
 import Header from './Header';
 import {init,  openTelegramLink } from '@telegram-apps/sdk';
 
-init();
+try {
+  init();
+} catch (error) {
+  
+}
+
 
 const TimersPage = () => {
 
@@ -65,7 +70,7 @@ const TimersPage = () => {
     const sortedTimers = timers.sort(sort_timers);
     setTimers(sortedTimers)
     setWorking(localTimers);
-    console.log(localTimers);
+    // console.log(localTimers);
 
   }, []);
 
@@ -98,6 +103,7 @@ const TimersPage = () => {
               key={getTimerId(name)}
               className="timer-item"
               currentTime={currentTime}
+              openTelegramLink={openTelegramLink}
             />
           ))}
         </div>
