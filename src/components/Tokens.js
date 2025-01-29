@@ -7,7 +7,7 @@ import Header from './Header';
 
 const TimersPage = () => {
 
-  const timers = [
+  const [timers, setTimers] = useState([
     // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
     ["blum", 8 * 60 * 60, "https://t.me/BlumCryptoBot/app?startapp=ref_u1zCViQjXi"],
     ["hot", 3 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
@@ -20,38 +20,10 @@ const TimersPage = () => {
     ["w-coin", 8 * 60 * 60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
     ["dormint", 8 * 60 * 60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
     ["coub", 24 * 60 * 60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
-    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
-
-
-
-  ]
+    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"]
+  ])
   const [working, setWorking] = useState({});
   const [currentTime, setCurrentTime] = useState(Date.now());
-
-
-  useEffect(() => {
-    const localTimers = [];
-    timers.forEach((timer) => {
-      const timerId = getTimerId(timer[0]);
-      if (localStorage.getItem(timerId)) {
-        localTimers.push({ timerId: 1 });
-      }
-    });
-    setWorking(localTimers);
-    console.log(localTimers);
-
-    
-  }, []);
-
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(Date.now());
-      
-    }, 1000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, []);
   function sort_timers(a, b) {
 
     // const aInDict = getTimerId(a[0]) in working;
@@ -68,6 +40,29 @@ const TimersPage = () => {
     return 0; // a и b остаются на месте относительно друг друга
 
   }
+
+  useEffect(() => {
+    const localTimers = [];
+    timers.forEach((timer) => {
+      const timerId = getTimerId(timer[0]);
+      if (localStorage.getItem(timerId)) {
+        localTimers.push({ timerId: 1 });
+      }
+    });
+    const sortedTimers = timers.sort(sort_timers);
+    setWorking(localTimers);
+  }, []);
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, []);
+
 
   return (
     <>
