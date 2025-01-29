@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 
 import React, { useEffect, useState } from 'react';
@@ -24,27 +24,31 @@ const TimersPage = () => {
   ])
   const [working, setWorking] = useState({});
   const [currentTime, setCurrentTime] = useState(Date.now());
+
   function sort_timers(a, b) {
 
     // const aInDict = getTimerId(a[0]) in working;
     // const bInDict = getTimerId(b[0]) in working;
-    const aInDict = localStorage.getItem(getTimerId(a[0]))
-    const bInDict = localStorage.getItem(getTimerId(b[0]))
+    if (typeof window !== 'undefined') {
+      const aInDict = localStorage.getItem(getTimerId(a[0]))
+      const bInDict = localStorage.getItem(getTimerId(b[0]))
 
-    if (aInDict && !bInDict) {
-      return 1; // a идет перед b
-    }
-    if (!aInDict && bInDict) {
-      return -1; // b идет перед a
+      if (aInDict && !bInDict) {
+        return 1; // a идет перед b
+      }
+      if (!aInDict && bInDict) {
+        return -1; // b идет перед a
+      }
     }
     return 0; // a и b остаются на месте относительно друг друга
 
   }
 
+
   useEffect(() => {
     const localTimers = {};
     timers.forEach((timer) => {
-      const timerId = getTimerId(timer[0]); 
+      const timerId = getTimerId(timer[0]);
       if (localStorage.getItem(timerId)) {
         localTimers[timerId] = 1;
       }
@@ -53,7 +57,7 @@ const TimersPage = () => {
     setTimers(sortedTimers)
     setWorking(localTimers);
     console.log(localTimers);
-    
+
   }, []);
 
 

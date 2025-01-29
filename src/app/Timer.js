@@ -29,10 +29,20 @@ export function Timer({
 }) {
     const [timeLeft, setTimeLeft] = useState(initialDuration);
     const [percent, setPercent] = useState(100);
-    const [startTime, setStartTime] = useState(() => {
+    const [startTime, setStartTime] = useState(null);
+    const [isClient, setIsClient] = useState(false);
+
+
+    // get start time in localstorage from client browser
+    useEffect(() => {
+        setIsClient(true);
         const storedStartTime = localStorage.getItem(timerId);
-        return storedStartTime ? new Date(storedStartTime) : null;
-    });
+        if (storedStartTime) {
+            setStartTime(new Date(storedStartTime));
+        }
+
+    }, [timerId]);
+
 
     useEffect(() => {
         if (working[timerId] == 1 && !startTime) {
@@ -81,7 +91,7 @@ export function Timer({
         localStorage.removeItem(timerId);
         setWorkingState({ ...working, [timerId]: 0 });
         console.log(working);
-        
+
         setTimeLeft(0);
         setPercent(0);
     };
@@ -89,7 +99,22 @@ export function Timer({
     const rotation = 360 * (percent / 100);
     const rightRotation = Math.min(rotation, 180);
     const leftRotation = Math.max(rotation - 180, 0);
-
+    if (!isClient) {
+        return <div className="timer">
+            <h2>{title}</h2>
+            {/* <button onClick={stopTimer}>reset</button> */}
+            <div className="progress-circle">
+                <div className="progress-bar">
+                    <span style={{ transform: `rotate(${rightRotation}deg)` }}></span>
+                </div>
+                <div className="progress-bar progress-bar-left">
+                    <span style={{ transform: `rotate(${leftRotation}deg)` }}></span>
+                </div>
+                <img src={imgSrc} alt={title} />
+            </div>
+            <div>Loading...</div>
+        </div> // Ensures the server and client render the same content
+    }
     return (
         <div className="timer">
             <h2>{title}</h2>
