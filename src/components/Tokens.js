@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import { Timer, getTimerName, getTimerImg, getTimerId } from "@/app/Timer";
 import Header from './Header';
-import {init,  openTelegramLink } from '@telegram-apps/sdk';
+import { init, openTelegramLink } from '@telegram-apps/sdk';
 
 try {
   init();
 } catch (error) {
-  
+
 }
 
 
@@ -75,6 +75,15 @@ const TimersPage = () => {
   }, []);
 
 
+  function stopAll() {
+    const localTimers = {};
+    timers.forEach((timer) => {
+      const timerId = getTimerId(timer[0]);
+      localStorage.removeItem(timerId);
+      setWorking({});
+    });
+  }
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
@@ -88,23 +97,28 @@ const TimersPage = () => {
 
     return (
       <>
-        {/* <Header /> */}
-        <div id="cont" className='timer-container'>
-          {timers.sort(sort_timers).map(([name, time, link]) => (
-            <Timer
-              title={getTimerName(name)}
-              imgSrc={getTimerImg(name)}
-              initialDuration={time}
-              timerId={getTimerId(name)}
-              link={link}
-              working={working}
-              setWorkingState={setWorking}
-              key={getTimerId(name)}
-              className="timer-item"
-              currentTime={currentTime}
-              openTelegramLink={openTelegramLink}
-            />
-          ))}
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          {/* <Header /> */}
+          <div id="cont" className='timer-container'>
+            {timers.sort(sort_timers).map(([name, time, link]) => (
+              <Timer
+                title={getTimerName(name)}
+                imgSrc={getTimerImg(name)}
+                initialDuration={time}
+                timerId={getTimerId(name)}
+                link={link}
+                working={working}
+                setWorkingState={setWorking}
+                key={getTimerId(name)}
+                className="timer-item"
+                currentTime={currentTime}
+                openTelegramLink={openTelegramLink}
+              />
+            ))}
+          </div>
+          <div style={{ marginBottom: "34px", textAlign: "center" }}>
+            <button onClick={stopAll}>Stop all</button>
+          </div>
         </div>
       </>
 
