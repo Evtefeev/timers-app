@@ -9,6 +9,9 @@ export function getTimerName(str) {
 };
 
 export function getTimerImg(str) {
+    if (str.includes("test")) {
+        str = "test";
+    }
     return "/images/" + str + ".jpg";
 };
 
@@ -42,7 +45,7 @@ export function Timer({
             setStartTime(new Date(storedStartTime));
         }
         // console.log(storedStartTime);
-        
+
         if (working[timerId] == 1 && !storedStartTime) {
             const now = new Date();
             setStartTime(now);
@@ -82,6 +85,9 @@ export function Timer({
         if (!working[timerId]) {
             setWorkingState({ ...working, [timerId]: 1 });
             setTimeLeft(initialDuration);
+            if (title.toLowerCase().includes("test")) {
+                return
+            }
             if (openTelegramLink.isAvailable()) {
                 openTelegramLink(link);
             } else {

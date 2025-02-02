@@ -27,7 +27,19 @@ const TimersPage = () => {
     ["w-coin", 8 * 60 * 60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
     ["dormint", 8 * 60 * 60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
     ["coub", 24 * 60 * 60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
-    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"]
+    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
+    // ["test", 15, "#"],
+    // ["test2", 20, "#"],
+    // ["test3", 25, "#"],
+    // ["test4", 30, "#"],
+    // ["test5", 35, "#"],
+    // ["test6", 40, "#"],
+    // ["test7", 45, "#"],
+    // ["test8", 50, "#"],
+    // ["test9", 55, "#"],
+    // ["test10", 60, "#"],
+    // ["test11", 65, "#"],
+
   ])
   const [working, setWorking] = useState({});
   const [currentTime, setCurrentTime] = useState(Date.now());
@@ -63,8 +75,17 @@ const TimersPage = () => {
     const localTimers = {};
     timers.forEach((timer) => {
       const timerId = getTimerId(timer[0]);
-      if (localStorage.getItem(timerId)) {
+      const time = new Date(localStorage.getItem(timerId));
+      const time_end = new Date(time.getTime() + (1000 * timer[1]));
+      const now = new Date();
+      if (time == null) {
+        localTimers[timerId] = 0;
+      }
+      if (time_end > now) {
         localTimers[timerId] = 1;
+      } else {
+        localTimers[timerId] = 0;
+
       }
     });
     const sortedTimers = timers.sort(sort_timers);
