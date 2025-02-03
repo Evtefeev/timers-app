@@ -51,25 +51,27 @@ const TimersPage = () => {
     setIsClient(true)
   }, [])
 
+
+
+
   function sort_timers(a, b) {
 
     // const aInDict = getTimerId(a[0]) in working;
     // const bInDict = getTimerId(b[0]) in working;
     if (typeof window !== 'undefined') {
-      const aInDict = localStorage.getItem(getTimerId(a[0]))
-      const bInDict = localStorage.getItem(getTimerId(b[0]))
+      const el1 = localStorage.getItem(getTimerId(a[0]))
+      const el2 = localStorage.getItem(getTimerId(b[0]))
 
-      if (aInDict && !bInDict) {
+      if (el1 && !el2) {
         return 1; // a идет перед b
       }
-      if (!aInDict && bInDict) {
+      if (!el1 && el2) {
         return -1; // b идет перед a
       }
     }
     return 0; // a и b остаются на месте относительно друг друга
 
   }
-
 
   useEffect(() => {
     const localTimers = {};
@@ -85,7 +87,7 @@ const TimersPage = () => {
         localTimers[timerId] = 1;
       } else {
         localTimers[timerId] = 0;
-
+        localStorage.removeItem(timerId);
       }
     });
     const sortedTimers = timers.sort(sort_timers);
@@ -108,7 +110,6 @@ const TimersPage = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(Date.now());
-
     }, 1000);
 
     return () => clearInterval(intervalId); // Cleanup interval on unmount

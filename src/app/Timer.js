@@ -55,7 +55,7 @@ export function Timer({
             setTimeLeft(0);
         }
 
-    }, [timerId, working, timerId, startTime]);
+    }, [working]);
 
     useEffect(() => {
         if (working[timerId] == 1 && startTime) {
