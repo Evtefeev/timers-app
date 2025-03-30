@@ -31,7 +31,7 @@ const [timers, setTimers] = useState(
     ["iceberg", 6 * 60 * 60, "https://t.me/IcebergAppBot?start=referral_1712026351"],
     ["hot", 4 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
     ["blum", 8 * 60 * 60, "https://t.me/BlumCryptoBot/app?startapp=ref_u1zCViQjXi"],
-  [  // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
+   // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
 //["cats", 24 * 60 * 60, ""],
     // ["test", 15, "#"],
     // ["test2", 20, "#"],
