@@ -15,7 +15,7 @@ try {
 const TimersPage = () => {
 const [timers, setTimers] = useState(
   [
-["evoSim", 24 * 60 * 60, "https://t.me/evosimgame_bot?start=01E6HH"]
+["evoSim", 24 * 60 * 60, "https://t.me/evosimgame_bot?start=01E6HH"],
 ["moonbix", 24 * 60 * 60, "https://t.me/Binance_Moonbix_bot/start?startapp=ref_1712026351&startApp=ref_1712026351"],
 ["timeFarm", 4 * 60 * 60, "https://t.me/TimeFarmCryptoBot?start=uwrKQKgw9aZyOVxn"],
 ["mouse", 24 * 60 * 60, "https://t.me/mousehous_bot/mouseapp?startapp=ref_1712026351"],
@@ -45,7 +45,7 @@ const [timers, setTimers] = useState(
     // ["test10", 60, "#"],
     // ["test11", 65, "#"],
 
-  ])
+  ]);
   const [working, setWorking] = useState({});
   const [currentTime, setCurrentTime] = useState(Date.now());
 
