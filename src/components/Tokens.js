@@ -13,8 +13,25 @@ try {
 
 
 const TimersPage = () => {
-
-  0126df2c9d97aeac340ba52307cadf5694520ba2
+const [timers, setTimers] = useState(
+  [
+["evoSim", 24 * 60 * 60, "https://t.me/evosimgame_bot?start=01E6HH"]
+["moonbix", 24 * 60 * 60, "https://t.me/Binance_Moonbix_bot/start?startapp=ref_1712026351&startApp=ref_1712026351"],
+["timeFarm", 4 * 60 * 60, "https://t.me/TimeFarmCryptoBot?start=uwrKQKgw9aZyOVxn"],
+["mouse", 24 * 60 * 60, "https://t.me/mousehous_bot/mouseapp?startapp=ref_1712026351"],
+    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
+    ["coub", 24 * 60 * 60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
+    ["dormint", 8 * 60 * 60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
+    ["w-coin", 8 * 60 * 60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
+    ["tonStation", 8 * 60 * 60, "https://t.me/tonstationgames_bot/app?startapp=ref_6kbaljw8tzkfmivuyrxm2i"],
+    // ["memeFi", 3 * 60 * 60, "https://t.me/memefi_coin_bot?start=r_2642b444e7"],
+    ["yesCoin", 12 * 60 * 60, "https://t.me/theYescoin_bot/Yescoin?startapp=GAw08x"],
+    //["tapSwap", 12 * 60 * 60, "https://t.me/tapswap_mirror_bot?start=r_1712026351"],
+    // ["pixelTap", 8 * 60 * 60, "https://t.me/pixelversexyzbot?start=1712026351"],
+    ["iceberg", 6 * 60 * 60, "https://t.me/IcebergAppBot?start=referral_1712026351"],
+    ["hot", 4 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
+    ["blum", 8 * 60 * 60, "https://t.me/BlumCryptoBot/app?startapp=ref_u1zCViQjXi"],
+  [  // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
 //["cats", 24 * 60 * 60, ""],
     // ["test", 15, "#"],
     // ["test2", 20, "#"],
