@@ -95,7 +95,7 @@ const TimersPage = () => {
         localStorage.removeItem(timerId);
       }
     });
-    const sortedTimers = timers.sort(sort_timers);
+    const sortedTimers = timers.reversed().sort(sort_timers);
     setTimers(sortedTimers)
     setWorking(localTimers);
     // console.log(localTimers);
