@@ -14,24 +14,7 @@ try {
 
 const TimersPage = () => {
 
-  const [timers, setTimers] = useState([
-    // ["hamster", 3 * 60 * 60, "https://t.me/Hamster_kombat_bot/start?startapp=kentId1712026351"],
-    ["blum", 8 * 60 * 60, "https://t.me/BlumCryptoBot/app?startapp=ref_u1zCViQjXi"],
-    ["hot", 4 * 60 * 60, "https://t.me/herewalletbot/app?startapp=12750980"],
-    ["iceberg", 6 * 60 * 60, "https://t.me/IcebergAppBot?start=referral_1712026351"],
-    // ["pixelTap", 8 * 60 * 60, "https://t.me/pixelversexyzbot?start=1712026351"],
-    //["tapSwap", 12 * 60 * 60, "https://t.me/tapswap_mirror_bot?start=r_1712026351"],
-    ["yesCoin", 12 * 60 * 60, "https://t.me/theYescoin_bot/Yescoin?startapp=GAw08x"],
-    // ["memeFi", 3 * 60 * 60, "https://t.me/memefi_coin_bot?start=r_2642b444e7"],
-    ["tonStation", 8 * 60 * 60, "https://t.me/tonstationgames_bot/app?startapp=ref_6kbaljw8tzkfmivuyrxm2i"],
-    ["w-coin", 8 * 60 * 60, "https://t.me/wcoin_tapbot/wcoin_app?startapp=MTcxMjAyNjM1MQ=="],
-    ["dormint", 8 * 60 * 60, "https://t.me/dormint_bot/dormint_bot?startapp=ref_R3X2Z6UGB7XXEC3GAAC6"],
-    ["coub", 24 * 60 * 60, "https://t.me/coub/app?startapp=coub__marker_19420027"],
-    ["cats", 24 * 60 * 60, "https://t.me/catsgang_bot/join?startapp=xCETv3LVPWjXU_gGrIqX9"],
-["mouse", 24 * 60 * 60, "https://t.me/mousehous_bot/mouseapp?startapp=ref_1712026351"],
-["timeFarm", 4 * 60 * 60, "https://t.me/TimeFarmCryptoBot?start=uwrKQKgw9aZyOVxn"],
-["moonbix", 24 * 60 * 60, "https://t.me/Binance_Moonbix_bot/start?startapp=ref_1712026351&startApp=ref_1712026351"],
-["evoSim", 24 * 60 * 60, "https://t.me/evosimgame_bot?start=01E6HH"],
+  0126df2c9d97aeac340ba52307cadf5694520ba2
 //["cats", 24 * 60 * 60, ""],
     // ["test", 15, "#"],
     // ["test2", 20, "#"],
@@ -95,7 +78,7 @@ const TimersPage = () => {
         localStorage.removeItem(timerId);
       }
     });
-    const sortedTimers = timers.reverse().sort(sort_timers);
+    const sortedTimers = timers.sort(sort_timers);
     setTimers(sortedTimers)
     setWorking(localTimers);
     // console.log(localTimers);
@@ -127,7 +110,7 @@ const TimersPage = () => {
         <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
           {/* <Header /> */}
           <div id="cont" className='timer-container'>
-            {timers.reverse().sort(sort_timers).map(([name, time, link]) => (
+            {timers.sort(sort_timers).map(([name, time, link]) => (
               <Timer
                 title={getTimerName(name)}
                 imgSrc={getTimerImg(name)}
