@@ -4,7 +4,7 @@ import Link from 'next/link';
 const Footer = () => {
     return (
         <footer style={footerStyle}>
-            TokensTimer 2024
+            TokensTimer 2025
         </footer>
     );
 };
